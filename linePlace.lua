@@ -79,35 +79,39 @@ function main()
 			     "SquidOS linePlace Program ...",
 			     ""})
       
-      if (ARGS[1] == "f") then
+      if (ARGS[1] == "f") then -- Placing forward?
+	 egps.forward()
 	 MoveFunc = function()
-	    print("  Moving forward")
-	    egps.forward()
+	    return egps.forward()
 	 end
 	 
 	 PlaceFunc = 
 	    function() -- Must turn around to place things behind us
-	    egps.turnLeft()
-	    egps.turnLeft()
-	    Slot = placeItem(Slot, turtle.place)
-	    if not Slot then -- If you can't put it down, something is wrong
-	       return false
-	    end
-	    egps.turnLeft() -- And turn back to the front
-	    egps.turnLeft()
+	        egps.turnLeft()
+		egps.turnLeft()
+		Slot = placeItem(Slot, turtle.place)
+		if not Slot then -- If you can't put it down, something is wrong
+		   return false
+		end
+		egps.turnLeft() -- And turn back to the front
+		egps.turnLeft()
+		return true
 	    end
 	    
 	    ScanFunc = turtle.detect
 	    print("  Placing forward")
-      else
+      else -- Place down
+	 egps.down()
 	 MoveFunc = egps.down
 	 
 	 PlaceFunc = 
 	    function()
-	    Slot = placeItem(Slot, turtle.placeUp)
-	    if not Slot then -- If you can't put it down, something is wrong
-	       return false
-	    end
+	        Slot = placeItem(Slot, turtle.placeUp)
+		if not Slot then -- If you can't put it down, something is wrong
+		   return false
+		else
+		   return true
+		end
 	    end
 	    
 	    ScanFunc = turtle.detectDown
