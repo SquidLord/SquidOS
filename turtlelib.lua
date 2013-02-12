@@ -3,7 +3,7 @@
 
 -- Gist: https://gist.github.com/SquidLord/4755840
 
--- Put in turtle startup file with: 
+-- Put in turtle startup file with:
 --    os.loadAPI("squid/turtleLib")
 
 
@@ -16,14 +16,14 @@ goodStr = "fblrudLR"
 --    takes a Lib (egps, turtle) and builds a map of String->move function associations
 function makeMoveTable(Lib)
    MT = {}
-   
+
    MT.f = Lib.forward
    MT.b = Lib.back
    MT.l = Lib.turnLeft
    MT.r = Lib.turnRight
    MT.u = Lib.up
    MT.d = Lib.down
-   MT.L = function() 
+   MT.L = function()
       Lib.turnLeft()
       Lib.forward()
       Lib.turnRight()
@@ -31,7 +31,7 @@ function makeMoveTable(Lib)
    MT.R = function()
       Lib.turnRight()
       Lib.forward()
-      Lib.turnLeft()  
+      Lib.turnLeft()
    end
    return MT
 end
@@ -56,15 +56,15 @@ function stringToMoves(Str, MoveTable, OutTable)
    if (OutTable == nil) then -- If this is the first call of the func, init OutTable
       OutTable = {}
    end
-   
+
    if (Str == "") then -- If there are no more cha's to process, return
       return OutTable
    else
       table.insert(OutTable, MoveTable[string.sub(Str, 1, 1)])
       return stringToMoves(string.sub(Str, 2),
-			   MoveTable,
-			   OutTable)
-   end                                  
+                           MoveTable,
+                           OutTable)
+   end
 end
 
 -- executeMoveTable(Table) => Bool
@@ -72,5 +72,25 @@ end
 function executeMoves(MoveTable)
    for _,Move in ipairs(MoveTable) do
       Move()
+   end
+end
+
+-- placeItem(Int, Func) => Int/Bool
+--    Takes an inventory Slot to target and attempts to place an item from it
+--      with PlaceFunc (turtle.place, turtle.placeUp, or your home-rolled)
+--    If it runs out of inv  in the slot to place, it moves to the next
+--    If it runs out of slots, it returns false
+--    If it succeeds in placing, it returns the slot number it placed from
+function placeItem(Slot, PlaceFunc)
+   if (Slot == 17) then
+      print("  Out of inventory")
+      return false
+   elseif (turtle.getItemCount(Slot) == 0) then -- There are slots left and we're out in this slot
+      return placeItem(Slot+1, PlaceFunc) -- Call yourself with the next slot selected
+   elseif not PlaceFunc() then -- there are items left in inv to place so if you STILL can't place the item
+      print("  Cannot place item")
+      return false -- Cannot continue; fail out
+   else
+      return Slot -- Return the slot number
    end
 end
