@@ -59,7 +59,10 @@ function scanMovePlaceR(ScanFunc, MoveFunc, PlaceFunc)
    end
 end
 
--- Main code branch
+---
+-- MAIN
+---
+
 function main()
    if not ARGS[1] then 
       return usage()
@@ -89,7 +92,7 @@ function main()
 	    function() -- Must turn around to place things behind us
 	        egps.turnLeft()
 		egps.turnLeft()
-		Slot = placeItem(Slot, turtle.place)
+		Slot = turtlelib.placeItem(Slot, turtle.place)
 		if not Slot then -- If you can't put it down, something is wrong
 		   return false
 		end
@@ -106,7 +109,7 @@ function main()
 	 
 	 PlaceFunc = 
 	    function()
-	        Slot = placeItem(Slot, turtle.placeUp)
+	        Slot = turtlelib.placeItem(Slot, turtle.placeUp)
 		if not Slot then -- If you can't put it down, something is wrong
 		   return false
 		else
