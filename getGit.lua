@@ -114,7 +114,10 @@ local function main()
    print("SquidOS getGit ...")
    print("")
    
-   if (not ARGS[1]) then printUsage() end -- If called as library or with no command line, Usage
+   if (not ARGS[1]) then
+      printUsage()
+      return false
+   end -- If called as library or with no command line, Usage
 
    if (not http) then
       squidlib.print("  Requires the http API")
