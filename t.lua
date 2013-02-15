@@ -1,11 +1,9 @@
 -- t: ComputerCraft turtle command line nav tool. Takes a single string and parses it as directions
 -- by Alexander "SquidLord" Williams (SaladinVrai)
 
--- Gist: https://gist.github.com/SquidLord/4757117
-
 -- Load libraries
-os.loadAPI("squid/squidlib")
-os.loadAPI("squid/turtlelib")
+os.loadAPI("squid/lib/squidlib")
+os.loadAPI("squid/lib/turtlelib")
 
 ARGS = {...}
 
@@ -23,17 +21,20 @@ end
 
 function usage()
    UsageText = { "SquidOS Turtle Movement Program ...",
-		 "  Takes a string of letters as directives on how to move the drone.",
-		 "",
-		 "  Acceptable letters are:",
-		 "    f - Forward",
-		 "    b - Back",
-		 "    u - Up",
-		 "    d - Down",
-		 "    l - Turn left",
-		 "    r - Turn right",
-		 "    L - Move Left 1m but keep facing",
-		 "    R - Move Right 1m but keep facing"}
+                 "  Takes a string of letters as directives on how to move the drone.",
+                 "",
+                 "  Acceptable letters are:",
+                 "    f - Forward",
+                 "    b - Back",
+                 "    u - Up",
+                 "    d - Down",
+                 "    l - Turn left",
+                 "    r - Turn right",
+                 "    L - Move Left 1m but keep facing",
+                 "    R - Move Right 1m but keep facing",
+                 "    D - Dig (forward)",
+                 "    X - Dig (down)",
+                 "    W - Dig (up)"}
    squidlib.printTable(UsageText)
 end
 

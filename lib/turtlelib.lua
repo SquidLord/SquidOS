@@ -1,15 +1,13 @@
 -- turtleLib: A core set of tool libraries for ComputerCraft turtles
 -- by Alexander "SquidLord" Williams (SaladinVrai)
 
--- Gist: https://gist.github.com/SquidLord/4755840
-
 -- Put in turtle startup file with:
---    os.loadAPI("squid/turtleLib")
+--    os.loadAPI("squid/lib/turtleLib")
 
 
 -- goodStr
 --    String containing list of all good characters for directions
-goodStr = "fblrudLR"
+goodStr = "fblrudLRDXW"
 
 
 -- makeMoveTable(Lib) => Table
@@ -33,6 +31,9 @@ function makeMoveTable(Lib)
       Lib.forward()
       Lib.turnLeft()
    end
+   MT.D = turtle.dig
+   MT.X = turtle.digDown
+   MT.W = turtle.digUp
    return MT
 end
 
