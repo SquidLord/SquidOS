@@ -3,7 +3,7 @@
 -- Before being able to use them, you should start the GPS with egps.startGPS()
 --    then get your current location with egps.setLocationFromGPS().
 -- egps.forward(), egps.back(), egps.up(), egps.down(), egps.turnLeft(), egps.turnRight()
---    replace the standard turtle functions. 
+--    replace the standard turtle functions.
 -- If you need to use the standard functions, you
 --    should call egps.setLocationFromGPS() again before using any egps functions.
 
@@ -12,7 +12,7 @@
 function empty(table)
    for _, value in pairs(table) do
       if value ~= nil then
-	 return false
+         return false
       end
    end
    return true
@@ -24,9 +24,9 @@ local cachedX, cachedY, cachedZ, cachedDir
 -- Directions
 North, West, South, East, Up, Down = 0, 1, 2, 3, 4, 5
 local shortNames = {[North] = "N", [West] = "W", [South] = "S",
-		    [East] = "E", [Up] = "U", [Down] = "D" }
+                    [East] = "E", [Up] = "U", [Down] = "D" }
 local deltas = {[North] = {0, 0, -1}, [West] = {-1, 0, 0}, [South] = {0, 0, 1},
-		[East] = {1, 0, 0}, [Up] = {0, 1, 0}, [Down] = {0, -1, 0}}
+                [East] = {1, 0, 0}, [Up] = {0, 1, 0}, [Down] = {0, -1, 0}}
 
 -- cache world geometry
 local cachedWorld = {}
@@ -60,7 +60,7 @@ function forward()
    local D = deltas[cachedDir]
    local x, y, z = cachedX + D[1], cachedY + D[2], cachedZ + D[3]
    local idx_pos = x..":"..y..":"..z
-   
+
    if turtle.forward() then
       cachedX, cachedY, cachedZ = x, y, z
       detectAll()
@@ -250,44 +250,44 @@ local function a_star(x1, y1, z1, x2, y2, z2, discover)
       f_score[idx_start] = heuristic_cost_estimate(x1, y1, z1, x2, y2, z2)
 
       while not empty(openset) do
-	 local current, idx_current
-	 local cur_f = 9999999
-	 
-	 for idx_cur, cur in pairs(openset) do
+         local current, idx_current
+         local cur_f = 9999999
+
+         for idx_cur, cur in pairs(openset) do
             if cur ~= nil and f_score[idx_cur] <= cur_f then
-	       idx_current, current, cur_f = idx_cur, cur, f_score[idx_cur]
+               idx_current, current, cur_f = idx_cur, cur, f_score[idx_cur]
             end
-	 end
-	 if idx_current == idx_goal then
+         end
+         if idx_current == idx_goal then
             return reconstruct_path(cameFrom, idx_goal)
-	 end
+         end
 
-	 -- no more than 500 moves
-	 if cur_f >= stopAt then
+         -- no more than 500 moves
+         if cur_f >= stopAt then
             break
-	 end
-	 
-	 openset[idx_current] = nil
-	 closedset[idx_current] = true
-	 
-	 local x3, y3, z3 = current[1], current[2], current[3]
+         end
 
-	 for dir = 0, 5 do -- for all direction find the neighbor of the current position
+         openset[idx_current] = nil
+         closedset[idx_current] = true
+
+         local x3, y3, z3 = current[1], current[2], current[3]
+
+         for dir = 0, 5 do -- for all direction find the neighbor of the current position
             local D = deltas[dir]
             local x4, y4, z4 = x3 + D[1], y3 + D[2], z3 + D[3]
             local neighbor, idx_neighbor = {x4, y4, z4}, x4..":"..y4..":"..z4
             if (cachedWorld[idx_neighbor] or 0) == 0 then -- if its free or unknow
-	       if closedset[idx_neighbor] == nil then
-		  local tentative_g_score = g_score[idx_current] + ((cachedWorld[idx_neighbor] == nil) and discover or 1)
-		  if openset[idx_neighbor] == nil or tentative_g_score <= g_score[idx_neighbor] then
-		     cameFrom[idx_neighbor] = {dir, idx_current}
-		     g_score[idx_neighbor] = tentative_g_score
-		     f_score[idx_neighbor] = tentative_g_score + heuristic_cost_estimate(x4, y4, z4, x2, y2, z2)
-		     openset[idx_neighbor] = neighbor
-		  end
-	       end
+               if closedset[idx_neighbor] == nil then
+                  local tentative_g_score = g_score[idx_current] + ((cachedWorld[idx_neighbor] == nil) and discover or 1)
+                  if openset[idx_neighbor] == nil or tentative_g_score <= g_score[idx_neighbor] then
+                     cameFrom[idx_neighbor] = {dir, idx_current}
+                     g_score[idx_neighbor] = tentative_g_score
+                     f_score[idx_neighbor] = tentative_g_score + heuristic_cost_estimate(x4, y4, z4, x2, y2, z2)
+                     openset[idx_neighbor] = neighbor
+                  end
+               end
             end
-	 end
+         end
       end
    end
    print("no path found")
@@ -307,23 +307,23 @@ function moveTo(_targetX, _targetY, _targetZ, _targetDir, changeDir, discover)
    while cachedX ~= _targetX or cachedY ~= _targetY or cachedZ ~= _targetZ do
       local path = a_star(cachedX, cachedY, cachedZ, _targetX, _targetY, _targetZ, discover)
       if #path == 0 then
-	 return false
+         return false
       end
       for i, dir in ipairs(path) do
-	 if dir == Up then
+         if dir == Up then
             if not up() then
-	       break
+               break
             end
-	 elseif dir == Down then
+         elseif dir == Down then
             if not down() then
-	       break
+               break
             end
-	 else
+         else
             turnTo(dir)
             if not forward() then
-	       break
+               break
             end
-	 end
+         end
       end
    end
    if changeDir then
@@ -341,23 +341,23 @@ end
 
 function discoverWorld(_range)
    local x, y, z, d = locate()
-   
+
    -- Try to go to every location in the cuboid
    for r = 1, _range do
       for dx = -r, r do
-	 for dy = -r, r do
+         for dy = -r, r do
             for dz = -r, r do
-	       local idx_goal = (x+dx)..":"..(y+dy)..":"..(z+dz)
-	       if cachedWorld[idx_goal] == nil then
-		  moveTo(x+dx, y+dy, z+dz, cachedDir, false, nilCost)
-		  sleep(0.01)
-	       end
+               local idx_goal = (x+dx)..":"..(y+dy)..":"..(z+dz)
+               if cachedWorld[idx_goal] == nil then
+                  moveTo(x+dx, y+dy, z+dz, cachedDir, false, nilCost)
+                  sleep(0.01)
+               end
             end
-	 end
+         end
       end
    end
 
-   -- Go back to the starting point  
+   -- Go back to the starting point
    moveTo(x, y, z, d)
 end
 
@@ -381,23 +381,23 @@ end
 
 function startGPS()
    local netOpen, modemSide = false, nil
-   
+
    for _, side in pairs(rs.getSides()) do    -- for all sides
       if peripheral.getType(side) == "modem" then  -- find the modem
-	 modemSide = side
-	 if rednet.isOpen(side) then  -- check its status
-	    netOpen = true
-	    break
-	 end
+         modemSide = side
+         if rednet.isOpen(side) then  -- check its status
+            netOpen = true
+            break
+         end
       end
    end
 
    if not netOpen then  -- if the rednet network is not open
       if modemSide then  -- and we found a modem, open the rednet network
-	 rednet.open(modemSide)
+         rednet.open(modemSide)
       else
-	 print("No modem found")
-	 return false
+         print("No modem found")
+         return false
       end
    end
    return true
@@ -415,40 +415,41 @@ function setLocationFromGPS()
       -- get the current position
       cachedX, cachedY, cachedZ  = gps.locate(4, false)
       cachedDir = nil
-      
+
       -- determine the current direction
       for tries = 0, 3 do  -- try to move in one direction
-	 if turtle.forward() then
+         if turtle.forward() then
             local newX, _, newZ = gps.locate(4, false) -- get the new position
             turtle.back()                                                         -- and go back
 
             -- deduce the curent direction
             if newZ < cachedZ then
-	       cachedDir = North -- North
+               cachedDir = North -- North
             elseif newZ > cachedZ then
-	       cachedDir = South -- South
+               cachedDir = South -- South
             elseif newX < cachedX then
-	       cachedDir = West -- West
+               cachedDir = West -- West
             elseif newX > cachedX then
-	       cachedDir = East -- East
+               cachedDir = East -- East
             end
 
             -- Cancel out the tries
             turnTo((cachedDir - tries + 4) % 4)
-	    
+
             -- exit the loop
             break
 
-	 else -- try in another direction
+         else -- try in another direction
             tries = tries + 1
             turtle.turnLeft()
-	 end
+         end
       end
 
       if cachedDir == nil then
-	 print("Could not determine direction")
+         print("Could not determine direction")
+         return false
       end
-      
+
       -- Return the current turtle position
       return cachedX, cachedY, cachedZ, cachedDir
    end

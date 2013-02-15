@@ -75,16 +75,20 @@ function executeMoves(MoveTable)
    end
 end
 
--- placeItem(Int, Func) => Int/Bool
+-- placeItem(Int, Func, [Int]) => Int/Bool
 --    Takes an inventory Slot to target and attempts to place an item from it
 --      with PlaceFunc (turtle.place, turtle.placeUp, or your home-rolled)
 --    If it runs out of inv  in the slot to place, it moves to the next
 --    If it runs out of slots, it returns false
 --    If it succeeds in placing, it returns the slot number it placed from
-function placeItem(Slot, PlaceFunc)
-   if (Slot == 17) then
-      print("  Out of inventory")
-      return false
+function placeItem(Slot, PlaceFunc, MaxSlot)
+   if (not MaxSlot) then
+      MaxSlot = 17
+   elseif (MaxSlot > 17) then -- We don't have 17 slots!
+      MaxSlot = 17
+   end
+   if (Slot >= MaxSlot) then
+      return false -- Silently return false and let the caller handle messages
    elseif (turtle.getItemCount(Slot) == 0) then -- There are slots left and we're out in this slot
       return placeItem(Slot+1, PlaceFunc) -- Call yourself with the next slot selected
    elseif not PlaceFunc() then -- there are items left in inv to place so if you STILL can't place the item
