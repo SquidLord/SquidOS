@@ -10,7 +10,6 @@ local turnflag = true
 
 turtle.select(slot)
 
-
 for i = 1,radius do
    turtle.back()
 end
