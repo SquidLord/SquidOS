@@ -4,7 +4,7 @@
 -- Place in the root directory of your preferred ComputerCraft turtles
 --    or computers
 
--- Pastebin: 
+-- Pastebin: http://pastebin.com/s21FC76b
 
 -- Args:
 --    Filename
@@ -34,7 +34,7 @@ local function printUsage()
                           "",
                           "getGit URL",
                           "  URL is the URI of the file in question without the leading",
-                          "    https://raw.github.com/"
+                          "    https://raw.github.com/",
                           "",
                           "By default, the name of the file will match that of the source",
                           "  without any extension."
