@@ -7,8 +7,8 @@
 -- Gist: https://gist.github.com/SquidLord/4758568
 
 -- Requires squidlib and egps
-os.loadAPI("squid/squidlib")
-os.loadAPI("squid/egps")
+os.loadAPI("squid/lib/squidlib")
+os.loadAPI("squid/lib/egps")
 
 ARGS = {...}
 

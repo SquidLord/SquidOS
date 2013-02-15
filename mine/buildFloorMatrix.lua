@@ -8,10 +8,10 @@
 -- Gist: https://gist.github.com/SquidLord/4748385
 
 -- Requires squidlib (https://gist.github.com/SquidLord/4746742)
-os.loadAPI("squid/squidlib")
+os.loadAPI("squid/lib/squidlib")
 
 -- Requires EGPS (A* pathfinding): https://gist.github.com/SquidLord/4741746
-os.loadAPI("squid/egps")
+os.loadAPI("squid/lib/egps")
 
 -- usage()
 --    Print usage text
