@@ -7,11 +7,9 @@
 -- Pastebin: http://pastebin.com/s21FC76b
 
 -- Args:
---    Filename
---        The filename to save it as
 --    URL
---        The URL of the file to pull; the Master branch is typically the most
---        recent.
+--       The URL of the file to pull; the Master branch is typically the most
+--       recent.
 
 ---
 -- Dependencies
@@ -157,8 +155,8 @@ local function main()
       return false
    end
 
-   if (not (FNcontent == 200)) then
-      print("  !!! Response code unpleasant !!!")
+   if (not (FNcontent.getResponseCode() == 200)) then
+      print("  !!! Response code "..FNcontent.getResponseCode().." !!!")
       return false
    end
 
