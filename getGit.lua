@@ -17,7 +17,7 @@
 -- Dependencies
 ---
 
-os.loadAPI("squid/lib/squidlib")
+-- NONE DAMNIT! Odds are low anything's even installed yet!
 
 ---
 -- VARS
@@ -29,16 +29,21 @@ ARGS = {...}
 -- FUNCTIONS
 
 local function printUsage()
-   squidlib.printTable({
-                          "SquidOS getGit: pull files from git repositories",
-                          "",
-                          "getGit URL",
-                          "  URL is the URI of the file in question without the leading",
-                          "    https://raw.github.com/",
-                          "",
-                          "By default, the name of the file will match that of the source",
-                          "  without any extension."
-                       })
+   usageText = {
+      "SquidOS getGit: pull files from git repositories",
+      "",
+      "getGit URL",
+      "  URL is the URI of the file in question without the leading",
+      "    https://raw.github.com/",
+      "",
+      "By default, the name of the file will match that of the source",
+      "  without any extension."
+   }
+
+   for _,L in ipairs(usageText) do
+      print(L)
+   end
+
    return false
 end
 
@@ -58,8 +63,11 @@ end
 -- extractFileFromURL(String) => String
 --    Take a full or partial URL and return the filename between any final . and the last /
 local function extractFileFromURL(URL)
-   -- Need a simple way to get the first char
+   -- first:  Need a simple way to get the first char
    local function first(S)
+      if (not S) then -- What, you're passing me a nil?
+         return false
+      end
       local F = ""
       F = string.sub(S, 1, 1)
       if (F == "") then
@@ -69,8 +77,11 @@ local function extractFileFromURL(URL)
       end
    end
 
-   -- Need everything BUT the first char
+   -- rest: Need everything BUT the first char
    local function rest(S)
+      if (not S) then -- What, you're passing me a nil?
+         return false
+      end
       local F = ""
       F = string.sub(S, 2)
       if (F == "") then
@@ -80,24 +91,24 @@ local function extractFileFromURL(URL)
       end
    end
 
-   -- Create a continuation-passing-style func to handle things
+   -- exffu: Create a continuation-passing-style func to handle things
    local function exffu(Work, FN)
       F = first(Work)
-      if not F then
+      if ((not F) or (F == "")) then
          return FN -- If no more charas to process, return the FN
       elseif (F == ".") then -- If we've found the last "."
          return exffu(rest(Work), "") -- Call exffu with the rest of the URL and reset the FN
       elseif (F == "/") then -- If we found the last "/"
          return FN -- Return the FileName
       else
-	 -- If it's just a character, recourse on rest of URL and append character to FN
-	 return exffu(rest(Work), FN..F)
+         -- If it's just a character, recourse on rest of URL and append character to FN
+         return exffu(rest(Work), FN..F)
       end
    end
-   
+
    -- Call with string reversed to make it easier to parse
    FileName = exffu(string.reverse(URL), "")
-   
+
    if FileName then
       return FileName
    else
@@ -113,26 +124,28 @@ end
 local function main()
    print("SquidOS getGit ...")
    print("")
-   
-   if (not ARGS[1]) then
+
+   if (not ARGS[1]) then -- If called as library or with no command line, Usage
       printUsage()
       return false
-   end -- If called as library or with no command line, Usage
+   end 
 
-   if (not http) then
-      squidlib.print("  Requires the http API")
+   if (not http) then -- If the http API isn't built in, fail
+      print("  Requires the http API")
       return false
    end
 
-   local safedURL = textutils.urlEncode(URL)
-   local URL = expandURL(safedURL)
-   local FileName = extractFileFromURL(safedURL)
+   -- local safedURL = textutils.urlEncode(URL)
+   local SafedURL = URL
+   local URL = expandURL(SafedURL)
+   local FileName = extractFileFromURL(SafedURL)
 
-   if not FileName then
+   if not FileName then -- If there was no filename at the end of the URL, fail
       return printUsage()
    else
       print("  Getting: "..URL)
       print("  Writing: "..FileName)
+      print()
    end
 
    print("  Getting file from gitHub ...")
@@ -163,5 +176,8 @@ local function main()
    print("  Done!")
 end
 
+---
+-- MAIN Entry
+---
 
 main()
