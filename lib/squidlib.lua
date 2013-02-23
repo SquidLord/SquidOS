@@ -1,8 +1,6 @@
 -- Core library for SquidOS shared functions. Put in turtle startup file with:
---   os.loadAPI("squid/squidLib")
+--   os.loadAPI("squidOS/lib//squidLib")
 -- by Alexander "SquidLord" Williams (SaladinVrai)
-
--- Gist: https://gist.github.com/SquidLord/4746742
 
 -- labelString() checks the machine's label and returns a sensible string
 function labelString()

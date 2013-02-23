@@ -2,25 +2,22 @@
 --   Monitor all traffic on local broadcast RedNet
 -- by Alexander "SquidLord" Williams (SaladinVrai)
 
+-- Import dependencies
+
+os.loadAPI("squidOS/lib/squidlib")
+
 -- Get the system label for identification
 
 local SysName = os.getComputerLabel()
 
--- Iterate over all sides for rednet.open
+-- Open modem for comms
 
-for n,m in ipairs(rs.getSides()) do
-   rednet.open(m)
-end
+squidlib.initModem()
 
 -- Identify
 
 print("SquidOS RedNet Sniffer ...")
-if SysName then
-   print("  Running on node: " .. os.getComputerLabel())
-else
-   write("  Running on ")
-   textutils.slowPrint("UNIDENTIFIED NODE")
-end
+write("  Running on "..squidlib.labelString())
 
 print()
 print("Press and hold Ctrl-T to end.")

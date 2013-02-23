@@ -8,10 +8,10 @@
 -- Gist: https://gist.github.com/SquidLord/4746878
 
 -- Load squidLib because, yes, you need it.
-os.loadAPI("squid/lib/squidlib")
+os.loadAPI("squidOS/lib/squidlib")
 
 -- Pathfinding is too important not to manage; load "egps" every boot
-os.loadAPI("squid/lib/egps")
+os.loadAPI("squidOS/lib/egps")
 
 -- Go ahead and initalize a modem, because why wouldn't you?
 squidlib.initModem()
